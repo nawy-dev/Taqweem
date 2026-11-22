@@ -6,8 +6,8 @@
 | العنصر | أين |
 |---|---|
 | ملف الإصدار الموقّع (AAB) | workflow `android-release` (يدوي) ← Release مسودّة |
-| أيقونة المتجر 512 | `tools/android/playstore-icon-512.png` |
-| الصورة المميّزة 1024×500 | `tools/android/play/feature-graphic-1024x500.png` |
+| أيقونة المتجر 512 | `tools/android/playstore-icon-512.png` (من حزمة المالك، D-177) |
+| الصورة المميّزة 1024×500 | `tools/android/play/feature-graphic-1024x500.png` (أُعيد توليدها بالأيقونة الجديدة) |
 | لقطات الهاتف (5، 1080×2052) | `tools/android/play/screenshots/` — الجدول، الشهر، ثلاثة أيام، ثم الجدول والشهر بالوضع الداكن (D-176) |
 | سياسة الخصوصية | `https://taqweem.nawy.app/privacy.html` (بعد دمج هذا الفرع ونشر الموقع) |
 | نصوص المتجر وإجابات النماذج | أدناه |

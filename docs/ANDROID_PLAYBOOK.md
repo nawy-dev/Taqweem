@@ -43,11 +43,13 @@
   - يخرج Release **مسودّة** بملف `taqweem-<ver>.aab`. وفي `android.yml` **تجربة جافة** للإصدار بمفتاح مؤقت تكشف كسر الإصدار مبكرًا.
 - بعد كل تغيير مهم أعد بناء الـAPK والـAAB (`dispatch`) وأخبر المستخدم بالرابط.
 
-## 5) الأيقونات (D-171)
-المولّد `python3 tools/icons/make_icons.py --all .` (Pillow + Playwright) يكتب: أيقونات الويب (`public/icons`)، وموارد أندرويد `tools/android/res` (legacy `mipmap-*`، **adaptive** foreground/monochrome، أيقونة الإشعار `drawable-*/ic_stat_*.png`)، وصورة Play 512. `make_feature.py` يولّد الصورة المميّزة 1024×500.
+## 5) الأيقونات (D-177، بدل D-171)
+المصدر حزمة جاهزة من المالك في `tools/icons/pack/`. شغّل `python3 tools/icons/install_pack.py` (Pillow فقط): ينسخ أيقونات الويب إلى `public/icons` وموارد أندرويد إلى `tools/android/res` (legacy `mipmap-*`، **adaptive** foreground/monochrome، xml، الخلفية) وأيقونة Play 512، ويولّد ما ينقص الحزمة: `icon-monochrome-512.png` وأيقونة الإشعار `drawable-*/ic_stat_taqweem.png`. `make_feature.py` يولّد الصورة المميّزة 1024×500 من `public/icons/icon-512.png`. `tests/build/icons.test.ts` يفحص المقاسات.
+- **أيقونة جديدة من المالك؟** ضعها في `pack/` وأعد التشغيل. **لا تعِد مولّدًا يرسم التصميم** (`make_icons.py` حُذف: كان سيمحو الجديد بصمت).
 - **في CI** (قبل `cap sync`): احذف `ic_launcher*` الافتراضية و`drawable/ic_launcher_background.xml` و`drawable-v24/ic_launcher_foreground.xml` ثم انسخ `tools/android/res/.` وإلا حدث تعارض موارد مكرّرة.
 - إعداد الإشعار: `plugins.LocalNotifications.smallIcon` في `capacitor.config.json`.
-- الخلفية `#111318`. الرقم في أيقونة التقويم ثابت (أيقونة تتغير يوميًا هشّة على أندرويد وغير ممكنة على iOS). **لا خط:** الأرقام مرسومة كأشكال؛ لقراءة أوضح في 48px استُعملت نسخة «صغيرة بصريًا».
+- الخلفية `#111318`. **لا تنسخ** `manifest.webmanifest`/`head-snippet.html` من الحزمة: مساراتها مطلقة وألوانها لا تطابق `check-dist`.
+- حدّ معروف: أركان البطاقة في الأيقونة التكيّفية تلامس حافة الدائرة (خارج المنطقة الآمنة 66 dp). لو ظهرت مقصوصة على جهاز، صغّر الـforeground ~8%.
 
 ## 6) Google Play
 - **سياسة الخصوصية** صفحة ثابتة (`public/privacy.html`) على نطاق التطبيق. **انتبه:** الـservice worker كان يردّ بالتطبيق على كل تصفّح فتُفتح صفحة التطبيق بدل الصفحة؛ استُثنيت في `tools/vite/sw.template.js` (D-173). أي صفحة ثابتة جديدة تحتاج نفس الاستثناء + اختبار.
